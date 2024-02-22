@@ -18,6 +18,7 @@ export class ChatpageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.chatSendService.userName ="Me";
-    this.chatSendService.Send("User ["+this.chatSendService.userName+"] joined");
+    this.chatSendService.Send(this.chatSendService.userName);
+    //this.chatSendService.Send("User ["+this.chatSendService.userName+"] joined");
   }
 }

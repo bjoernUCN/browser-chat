@@ -5,3 +5,8 @@
         <input type="text" name="message" ngModel required placeholder="Type your message here">
     </form>
 </div>
+
+
+<div *ngFor="let msg of messages">
+    {{ msg }}
+</div>
