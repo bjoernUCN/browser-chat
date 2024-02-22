@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class ChatsendService {
   userName : string;
-  constructor() {this.userName="Unnamed"}
+  constructor() {this.userName = "Unnamed"}
 
   public Send(input: string){
     console.log(input); //Later send to the api

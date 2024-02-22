@@ -1,5 +1,7 @@
 <p>chattextinput works!</p>
 
 <div>
-    <input type="text" name="message" placeholder="Type your message here"> <!--TODO, Event handling-->
+    <form #chatForm="ngForm" (ngSubmit)="ChatSend(chatForm)">
+        <input type="text" name="message" ngModel required placeholder="Type your message here">
+    </form>
 </div>
