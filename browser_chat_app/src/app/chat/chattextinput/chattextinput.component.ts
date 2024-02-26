@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgForm } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chattextinput',
@@ -17,16 +17,21 @@ export class ChattextinputComponent {
 
   messages: string[] = [];
 
-  constructor(private chatSendService: ChatsendService)
-  {
-    this.chatSendService.getMessages().subscribe((msg: any) => {
-      this.messages.push(msg);
-    });
+  get items(): ReadonlyArray<string> {
+    return this.chatSendService.messages;
+  }
+
+  constructor(private chatSendService: ChatsendService) {}
+
+  ngOnInit(): void {
+    const url = 'ws://localhost:8080';
+    this.chatSendService.connect(url);
   }
 
   ChatSend(form: NgForm) {
-    this.chatSendService.Send(form.value.message);
-
+    this.chatSendService.send(form.value.message);
+    console.log(form.value.message);
     form.reset();
   }
+
 }

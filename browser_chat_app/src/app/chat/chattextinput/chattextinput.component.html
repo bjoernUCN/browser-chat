@@ -1,12 +1,28 @@
-<p>chattextinput works!</p>
 
-<div>
-    <form #chatForm="ngForm" (ngSubmit)="ChatSend(chatForm)">
-        <input type="text" name="message" ngModel required placeholder="Type your message here">
-    </form>
-</div>
+<div class="container">
+    <div class="box" style="height: 90%;">
+        <div class="dark-mode-message-box" >
+            <div class="dark-mode-message-content">
+                <ul class="message-list">
+                    <li class="message" *ngFor="let item of items">{{ item }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="box" style="height: 10%;">
+        <div>
+            <form #chatForm="ngForm" (ngSubmit)="ChatSend(chatForm)" >
+                <input type="text" style="width: 100%; margin: 0;" name="message" ngModel required placeholder="Type your message here">
+            </form>
+        </div>
+    </div>
+  </div>
+  
 
 
-<div *ngFor="let msg of messages">
-    {{ msg }}
-</div>
+  
+
+
+
+
+

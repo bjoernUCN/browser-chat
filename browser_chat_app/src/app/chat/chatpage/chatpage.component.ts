@@ -12,13 +12,6 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
   templateUrl: './chatpage.component.html',
   styleUrl: './chatpage.component.scss'
 })
-export class ChatpageComponent implements OnInit {
-  constructor(private chatSendService: ChatsendService){
-
-  }
-  ngOnInit(): void {
-    this.chatSendService.userName ="Me";
-    this.chatSendService.Send(this.chatSendService.userName);
-    //this.chatSendService.Send("User ["+this.chatSendService.userName+"] joined");
-  }
+export class ChatpageComponent {
+ 
 }

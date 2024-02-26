@@ -1,40 +1,56 @@
-import { EMPTY, Observable, Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Observer } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChatsendService {
-  userName : string;
+  
   private socket$!: WebSocketSubject<any>;
+  public messages: string[]
+  constructor() {this.messages = [] }
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    this.userName = "Unnamed";
-    if (isPlatformBrowser(this.platformId)) {
-      // Initialize WebSocket connection here
-      this.socket$ = webSocket('ws://localhost:8080/ws');
-    }
+  connect(url: string): void {
+    this.socket$ = webSocket({
+      url,
+      deserializer: (msg) => msg, // Disable deserialization
+    });
+
+    this.recieveMessage();
   }
 
+  private recieveMessage() {
+    this.socket$.subscribe(
+      (event: MessageEvent) => {
 
-  public Send(input: string){
-    if(input != undefined && this.socket$ != undefined){
-      console.log(input); //Later send to the api
-      this.socket$.next(input);
-    }
-    
+        const data = JSON.parse(event.data)
+        const message = data; // Extract message data
+        
+        console.log('Received message from server:', message); // Log the message
+        this.messages.push(message);
+        
+        if (this.messages.length > 20) {
+          this.messages = this.messages.slice(-20);
+        }
+        // You can emit an event or perform any other action with the received message here
+      },
+      (error) => console.error(error),
+      () => console.log('Socket connection closed')
+    );
   }
 
-  getMessages(): Observable<any> {
+  send(message: string): void {
     if (this.socket$) {
-      return this.socket$.asObservable();
+      this.socket$.next(message);
     } else {
-      // Handle the case where socket$ is not initialized
-      // For example, return an empty observable
-      return EMPTY;
+      console.error('Socket connection not initialized');
     }
   }
 
+  close(): void {
+    if (this.socket$) {
+      this.socket$.complete();
+    }
+  }
 }
