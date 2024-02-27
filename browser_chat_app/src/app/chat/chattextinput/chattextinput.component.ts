@@ -26,7 +26,7 @@ export class ChattextinputComponent {
   constructor(private chatSendService: ChatsendService) {}
 
   ngOnInit(): void {
-    const url = 'ws://localhost:8080';
+    const url = 'ws://chatapi-production-6190.up.railway.app:8080';
     this.chatSendService.connect(url);
   }
 
