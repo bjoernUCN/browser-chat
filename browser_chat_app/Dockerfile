@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:18.13.0 AS build
+FROM node:20.11.0 AS build
 WORKDIR /app
 # Copy package.json and package-lock.json from the browser_chat_app directory
 COPY browser_chat_app/package*.json ./
