@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { Observer } from 'rxjs';
+import { Message} from '../model/message';
 
 @Injectable({
   providedIn: 'root',
@@ -8,8 +9,12 @@ import { Observer } from 'rxjs';
 export class ChatsendService {
   
   private socket$!: WebSocketSubject<any>;
-  public messages: string[]
-  constructor() {this.messages = [] }
+  public messages: Message[]
+
+  constructor() {
+    this.messages = [] 
+
+  }
 
   connect(url: string): void {
     this.socket$ = webSocket({
@@ -20,15 +25,16 @@ export class ChatsendService {
     this.recieveMessage();
   }
 
-  private recieveMessage() {
+  public recieveMessage() { //extract into own service
     this.socket$.subscribe(
       (event: MessageEvent) => {
 
         const data = JSON.parse(event.data)
-        const message = data; // Extract message data
-        
-        console.log('Received message from server:', message); // Log the message
-        this.messages.push(message);
+        const msg: Message = JSON.parse(data);
+        this.messages.push(msg);
+
+       // const message = msg.content; // Extracted message data
+       // console.log('Received message from server:', message); // Log the message
         
         if (this.messages.length > 20) {
           this.messages = this.messages.slice(-20);
@@ -40,9 +46,9 @@ export class ChatsendService {
     );
   }
 
-  send(message: string): void {
+  send(message: Message): void {
     if (this.socket$) {
-      this.socket$.next(message);
+      this.socket$.next(JSON.stringify(message));
     } else {
       console.error('Socket connection not initialized');
     }
@@ -53,4 +59,5 @@ export class ChatsendService {
       this.socket$.complete();
     }
   }
+
 }

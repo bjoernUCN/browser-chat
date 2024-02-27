@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    background-color: rgb(20, 12, 12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* This ensures all elements include padding and border in their total width and height */
+  }
+

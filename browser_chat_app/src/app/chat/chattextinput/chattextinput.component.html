@@ -1,28 +1,24 @@
-
-<div class="container">
-    <div class="box" style="height: 90%;">
-        <div class="dark-mode-message-box" >
-            <div class="dark-mode-message-content">
-                <ul class="message-list">
-                    <li class="message" *ngFor="let item of items">{{ item }}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="box" style="height: 10%;">
+<ul class="message-list"  >
+    <!--div>
+        <div class="badge">{{item.username}} {{item.type}}</div>
+        <li class="message">{{ item.content }}</li>
+    </div-->
+    <li class="message" *ngFor="let item of items">
         <div>
-            <form #chatForm="ngForm" (ngSubmit)="ChatSend(chatForm)" >
-                <input type="text" style="width: 100%; margin: 0;" name="message" ngModel required placeholder="Type your message here">
-            </form>
+            <div class="badge">{{item.username}}</div>
+            <div style="padding-top: 3px;">{{ item.content }}</div>
         </div>
+    </li>
+</ul>
+  
+
+<!--form #chatForm="ngForm" (ngSubmit)="ChatSend(chatForm)" class="chat-input-container">
+    <input type="text" class="chat-input" name="message" ngModel required placeholder="Type a message...">
+</form-->
+
+<form #chatForm="ngForm" (ngSubmit)="ChatSend(chatForm)" class="chat-input-container">
+    <div class="input-container" style="display: flex;">
+        <input style="width: 10%;" type="text" class="chat-input right" name="username" autocomplete="nickname" [(ngModel)]="username" required placeholder="Username">
+        <input type="text" class="chat-input left" name="message" [(ngModel)]="message" autocomplete="off" required placeholder="Type a message..." (keydown.enter)="ChatSend(chatForm)">
     </div>
-  </div>
-  
-
-
-  
-
-
-
-
-
+</form>

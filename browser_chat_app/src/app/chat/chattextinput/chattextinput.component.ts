@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { ChatsendService } from '../services/chatsend.service';
 import { FormsModule } from '@angular/forms';
 import { NgForm } from '@angular/forms';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Message } from '../model/message';
+import { Type } from '../model/message';
 
 @Component({
   selector: 'app-chattextinput',
@@ -13,11 +13,13 @@ import { Subscription } from 'rxjs';
   templateUrl: './chattextinput.component.html',
   styleUrl: './chattextinput.component.scss'
 })
+
 export class ChattextinputComponent {
 
-  messages: string[] = [];
+  username: string = "unknown";
+  message: string = "";
 
-  get items(): ReadonlyArray<string> {
+  get items(): ReadonlyArray<Message> {
     return this.chatSendService.messages;
   }
 
@@ -29,9 +31,15 @@ export class ChattextinputComponent {
   }
 
   ChatSend(form: NgForm) {
-    this.chatSendService.send(form.value.message);
     console.log(form.value.message);
-    form.reset();
-  }
+    if(form.value.message == null)
+      return;
+
+    this.chatSendService.send(new Message(this.username, Type.text, form.value.message));
+    //this.chatSendService.send(form.value.message);
+    //form.reset();
+    form.controls['message'].reset();
+
+    }
 
 }
