@@ -25,7 +25,7 @@ export class ChatsendService {
     this.recieveMessage();
   }
 
-  public recieveMessage() { //extract into own service
+  public recieveMessage() {
     this.socket$.subscribe(
       (event: MessageEvent) => {
 
